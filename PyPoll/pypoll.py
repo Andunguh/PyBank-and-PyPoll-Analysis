@@ -1,22 +1,29 @@
 import csv
-
+counties_list=[]
+candidates_list=[]
+candidates_votes={}
 with open("Resources/election_data.csv","r") as election_data:
     csvreader = csv.reader(election_data)
-    total_votes=0
+    
     column_names = next(csvreader)   
-    for row in csvreader: 
-        total_votes=total_votes+1 
+    for vote in csvreader: 
+        counties_list.append(vote[1])
+        candidates_list.append(vote[2])
+        if vote[2] in candidates_votes.keys():
+            candidates_votes[vote[2]] += 1
+        else:
+            candidates_votes[vote[2]]= 1
 
 
 election_analysis=f"""
 Election Results
 -------------------------
-Total Votes: {total_votes}
+Total Votes: {len(candidates_list)}
 -------------------------
-Khan: 63.000% (2218231)
-Correy: 20.000% (704200)
-Li: 14.000% (492940)
-O'Tooley: 3.000% (105630)
+Khan: 63.000% ({candidates_votes["Khan"]})
+Correy: 20.000% ({candidates_votes["Correy"]})
+Li: 14.000% ({candidates_votes["Li"]})
+O'Tooley: 3.000% ({candidates_votes["O'Tooley"]})
 -------------------------
 Winner: Khan
 -------------------------
